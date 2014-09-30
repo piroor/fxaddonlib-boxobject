@@ -1,5 +1,5 @@
 /*
- "getBoxObjectFor()" compatibility library for Firefox 3.6 or later
+ "getBoxObjectFor()" compatibility library for Firefox 31 or later
 
  Usage:
    // use instead of HTMLDocument.getBoxObjectFor(HTMLElement)
@@ -7,7 +7,7 @@
                          .boxObject
                          .getBoxObjectFor(HTMLElementOrRange);
 
- license: The MIT License, Copyright (c) 2009-2013 YUKI "Piro" Hiroshi
+ license: The MIT License, Copyright (c) 2009-2014 YUKI "Piro" Hiroshi
  original:
    http://github.com/piroor/fxaddonlib-boxobject
 */
@@ -30,7 +30,7 @@ if (typeof window == 'undefined' ||
 }
 
 (function() {
-	const currentRevision = 7;
+	const currentRevision = 8;
 
 	if (!('piro.sakura.ne.jp' in window)) window['piro.sakura.ne.jp'] = {};
 
@@ -49,7 +49,11 @@ if (typeof window == 'undefined' ||
 
 		getBoxObjectFor : function(aNodeOrRange, aUnify)
 		{
-			return (aNodeOrRange instanceof Ci.nsIDOMNode && 'getBoxObjectFor' in aNodeOrRange.ownerDocument) ?
+			var d = aNodeOrRange.ownerDocument;
+			return (d &&
+					typeof d.defaultView.Node == 'function' &&
+					aNodeOrRange instanceof d.defaultView.Node &&
+					'getBoxObjectFor' in d) ?
 					this.getBoxObjectFromBoxObjectFor(aNodeOrRange, aUnify) :
 					this.getBoxObjectFromClientRectFor(aNodeOrRange, aUnify) ;
 		},
@@ -92,13 +96,18 @@ if (typeof window == 'undefined' ||
 					height  : 0,
 					screenX : 0,
 					screenY : 0,
-					element : aNodeOrRange instanceof Ci.nsIDOMNode ? aNodeOrRange : null ,
-					range   : aNodeOrRange instanceof Ci.nsIDOMRange ? aNodeOrRange : null,
+					element : null,
+					range   : null,
 					fixed   : false
 				};
 			try {
-				var frame = (box.element || box.range.startContainer).ownerDocument.defaultView;
+				var frame = (aNodeOrRange.startContainer || aNodeOrRange).ownerDocument.defaultView;
 				var zoom = this.getZoom(frame) ;
+
+				if (aNodeOrRange instanceof frame.Node)
+					box.element = aNodeOrRange;
+				if (aNodeOrRange instanceof frame.Range)
+					box.range = aNodeOrRange;
 
 				var rect = aNodeOrRange.getBoundingClientRect();
 				if (aUnify) {
