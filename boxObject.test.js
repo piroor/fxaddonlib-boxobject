@@ -188,8 +188,11 @@ test_getBoxObjectFromSomethingFor_withZoom.setUp = function()
 		.QueryInterface(Ci.nsIInterfaceRequestor)
 		.getInterface(Ci.nsIWebNavigation)
 		.QueryInterface(Ci.nsIDocShell)
-		.contentViewer
-		.QueryInterface(Ci.nsIMarkupDocumentViewer);
+		.contentViewer;
+	// no need to QI for Firefox 35, but this is still required for old environments.
+	if (!('fullZoom' in markupDocumentViewer))
+		markupDocumentViewer = markupDocumentViewer
+			.QueryInterface(Ci.nsIMarkupDocumentViewer);
 	markupDocumentViewer.fullZoom = 2;
 }
 test_getBoxObjectFromSomethingFor_withZoom.tearDown = function()
