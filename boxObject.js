@@ -162,6 +162,7 @@ if (typeof window == 'undefined' ||
 				box.screenY += frame.mozInnerScreenY * zoom;
 			}
 			catch(e) {
+				Components.utils.reportError(e);
 			}
 
 			'x,y,screenX,screenY,width,height,left,top,right,bottom'
