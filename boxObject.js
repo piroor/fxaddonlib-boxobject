@@ -30,7 +30,7 @@ if (typeof window == 'undefined' ||
 }
 
 (function() {
-	const currentRevision = 8;
+	const currentRevision = 9;
 
 	if (!('piro.sakura.ne.jp' in window)) window['piro.sakura.ne.jp'] = {};
 
