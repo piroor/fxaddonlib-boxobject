@@ -196,13 +196,17 @@ if (typeof window == 'undefined' ||
 					return 1;
 			}
 			catch(e) {
+				Components.utils.reportError(e);
 				return 1;
 			}
 			var markupDocumentViewer = aFrame.top
 					.QueryInterface(Ci.nsIInterfaceRequestor)
 					.getInterface(Ci.nsIWebNavigation)
 					.QueryInterface(Ci.nsIDocShell)
-					.contentViewer
+					.contentViewer;
+			// no need to QI for Firefox 35, but this is still required for old environments.
+			if (!('fullZoom' in markupDocumentViewer))
+				markupDocumentViewer = markupDocumentViewer
 					.QueryInterface(Ci.nsIMarkupDocumentViewer);
 			return markupDocumentViewer.fullZoom;
 		}
