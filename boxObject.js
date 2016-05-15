@@ -123,14 +123,14 @@ if (typeof window == 'undefined' ||
 				if (box.element) {
 					let style = this._getComputedStyle(aNodeOrRange);
 					if (style) { // the root element can have no computed style.
-					// "x" and "y" are offset positions of the "padding-box" from the document top-left edge.
-					box.x += this._getPropertyPixelValue(style, 'border-left-width');
-					box.y += this._getPropertyPixelValue(style, 'border-top-width');
+						// "x" and "y" are offset positions of the "padding-box" from the document top-left edge.
+						box.x += this._getPropertyPixelValue(style, 'border-left-width');
+						box.y += this._getPropertyPixelValue(style, 'border-top-width');
 
-					if (style.getPropertyValue('position') != 'fixed') {
-						box.x += frame.scrollX;
-						box.y += frame.scrollY;
-					}
+						if (style.getPropertyValue('position') != 'fixed') {
+							box.x += frame.scrollX;
+							box.y += frame.scrollY;
+						}
 					}
 				}
 				else {
