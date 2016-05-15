@@ -7,7 +7,7 @@
                          .boxObject
                          .getBoxObjectFor(HTMLElementOrRange);
 
- license: The MIT License, Copyright (c) 2009-2014 YUKI "Piro" Hiroshi
+ license: The MIT License, Copyright (c) 2009-2016 YUKI "Piro" Hiroshi
  original:
    http://github.com/piroor/fxaddonlib-boxobject
 */
@@ -30,7 +30,7 @@ if (typeof window == 'undefined' ||
 }
 
 (function() {
-	const currentRevision = 9;
+	const currentRevision = 10;
 
 	if (!('piro.sakura.ne.jp' in window)) window['piro.sakura.ne.jp'] = {};
 
@@ -122,7 +122,7 @@ if (typeof window == 'undefined' ||
 
 				if (box.element) {
 					let style = this._getComputedStyle(aNodeOrRange);
-
+					if (style) { // the root element can have no computed style.
 					// "x" and "y" are offset positions of the "padding-box" from the document top-left edge.
 					box.x += this._getPropertyPixelValue(style, 'border-left-width');
 					box.y += this._getPropertyPixelValue(style, 'border-top-width');
@@ -130,6 +130,7 @@ if (typeof window == 'undefined' ||
 					if (style.getPropertyValue('position') != 'fixed') {
 						box.x += frame.scrollX;
 						box.y += frame.scrollY;
+					}
 					}
 				}
 				else {
