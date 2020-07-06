@@ -1,4 +1,6 @@
-# "getBoxObjectFor()" compatibility library for Firefox 3.6 or later
+# "getBoxObjectFor()" compatibility library for Firefox 3.6-56
+
+This project is obsolete and not maintained anymore.
 
 ## Usage
 
